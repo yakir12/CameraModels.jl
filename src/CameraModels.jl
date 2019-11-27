@@ -1,0 +1,3 @@
+module CameraModels
+
+end # module
