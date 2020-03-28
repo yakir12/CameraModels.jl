@@ -1,12 +1,14 @@
 
 export Pinhole
 
-struct Pinhole{C,R} <: CameraModel where C where Return
+struct Pinhole <: CameraModel
     
-    Pinhole(pixelwidth::Int, pixelheight::Int, prinicipalpoint::PixelCoordinate, focallength::Vector2) = new{pixelwidth, pixelheight}(prinicipalpoint, focallength)
+    Pinhole(pixelwidth::Int, pixelheight::Int, prinicipalpoint::PixelCoordinate, focallength::Vector2) = new(prinicipalpoint, focallength, pixelwidth, pixelheight)
 
     prinicipalpoint::PixelCoordinate # in pixels
     focallength::Vector2 # in pixels
+    columns::Int
+    rows::Int
 end
 
 """
@@ -38,5 +40,5 @@ end
 lookdirection(cameramodel::Pinhole) = SVector{3}(0,1,0)
 updirection(cameramodel::Pinhole) = SVector{3}(0,0,1)
 
-columns(cameramodel::Pinhole{NColumns, NRows}) where NColumns where NRows = NColumns 
-rows(cameramodel::Pinhole{NColumns, NRows}) where NColumns where NRows = NRows 
+columns(cameramodel::Pinhole) = cameramodel.columns
+rows(cameramodel::Pinhole) = cameramodel.rows 
