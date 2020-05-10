@@ -1,10 +1,19 @@
 using CameraModels
 using Test
+using StaticArrays
 
-@testset "real to camera" begin
-    intrinsic = Intrinsic((0., 0.), (1., 0), 0.0)
-    extrinsic = Extrinsic([0., 0, 0], [1., 0, 0])
-    m = Pinhole(intrinsic, extrinsic)
-    f = real2pixel(m)
-    @test f([0,0,1]) == [0, 0]
+struct SomeTestModel <: CameraModel end
+
+@testset "Test sensorsize using rows and columns." begin
+    CameraModels.rows(m::SomeTestModel) = 11
+    CameraModels.columns(m::SomeTestModel) = 22
+    
+    model = SomeTestModel()
+    @test sensorsize(model) == SVector{2}(22,11)
 end
+
+
+
+include("CameraModelTestBench.jl")
+
+include("Pinhole.jl")
